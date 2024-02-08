@@ -77,17 +77,17 @@ Default: `rainbows`
 
 Lorem ipsum.
 
-[build-img]:https://github.com/BorneRecharge/advenir-ts-client/actions/workflows/release.yml/badge.svg
-[build-url]:https://github.com/BorneRecharge/advenir-ts-client/actions/workflows/release.yml
-[downloads-img]:https://img.shields.io/npm/dt/@bornerecharge/advenir-ts-client
-[downloads-url]:https://www.npmtrends.com/@bornerecharge/advenir-ts-client
-[npm-img]:https://img.shields.io/npm/v/@bornerecharge/advenir-ts-client
-[npm-url]:https://www.npmjs.com/package/@bornerecharge/advenir-ts-client
-[issues-img]:https://img.shields.io/github/issues/BorneRecharge/advenir-ts-client
-[issues-url]:https://github.com/BorneRecharge/advenir-ts-client/issues
-[codecov-img]:https://codecov.io/gh/BorneRecharge/advenir-ts-client/branch/main/graph/badge.svg
-[codecov-url]:https://codecov.io/gh/BorneRecharge/advenir-ts-client
-[semantic-release-img]:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]:https://github.com/semantic-release/semantic-release
-[commitizen-img]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[commitizen-url]:http://commitizen.github.io/cz-cli/
+[build-img]: https://github.com/BorneRecharge/advenir-ts-client/actions/workflows/release.yml/badge.svg
+[build-url]: https://github.com/BorneRecharge/advenir-ts-client/actions/workflows/release.yml
+[downloads-img]: https://img.shields.io/npm/dt/@bornerecharge/advenir-ts-client
+[downloads-url]: https://www.npmtrends.com/@bornerecharge/advenir-ts-client
+[npm-img]: https://img.shields.io/npm/v/@bornerecharge/advenir-ts-client
+[npm-url]: https://www.npmjs.com/package/@bornerecharge/advenir-ts-client
+[issues-img]: https://img.shields.io/github/issues/BorneRecharge/advenir-ts-client
+[issues-url]: https://github.com/BorneRecharge/advenir-ts-client/issues
+[codecov-img]: https://codecov.io/gh/BorneRecharge/advenir-ts-client/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/BorneRecharge/advenir-ts-client
+[semantic-release-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-release-url]: https://github.com/semantic-release/semantic-release
+[commitizen-img]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
+[commitizen-url]: http://commitizen.github.io/cz-cli/
