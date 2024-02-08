@@ -117,3 +117,6 @@ dist
 
 # Compiled code
 lib/
+
+# JetBrains IDE configuration files
+.idea/
