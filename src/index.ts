@@ -105,18 +105,20 @@ export class Advenir {
   private readonly url: string;
   private readonly basicAuthToken: string;
 
-  constructor(username: string, password: string, isTest: boolean = false) {
+  constructor(
+    private readonly userId: string,
+    username: string,
+    password: string,
+    isTest: boolean = false,
+  ) {
     this.url = isTest ? ADVENIR_TEST_URL : ADVENIR_PRODUCTION_URL;
     this.basicAuthToken = Buffer.from(`${username}:${password}`).toString(
       'base64',
     );
   }
 
-  public async sendOperation(
-    userId: string,
-    stations: Station[],
-  ): Promise<OperationError[]> {
-    const body = toOperationBody(userId, stations);
+  public async sendOperation(stations: Station[]): Promise<OperationError[]> {
+    const body = toOperationBody(this.userId, stations);
 
     const response = await fetch(this.url, {
       method: 'POST',

@@ -3,12 +3,12 @@ import { Advenir } from '../src';
 describe('index', () => {
   describe('Advenir', () => {
     it('should alert about already sent transactions', async () => {
+      const userId = 'a6d0e6cf-7cac-477a-ae63-7e753c5bdda1';
       const username = '100@servtest.advenir.mobi';
       const password = 'test123';
-      const client = new Advenir(username, password, true);
+      const client = new Advenir(userId, username, password, true);
 
-      const userId = 'a6d0e6cf-7cac-477a-ae63-7e753c5bdda1';
-      const response = await client.sendOperation(userId, [
+      const response = await client.sendOperation([
         {
           id: 'R3201',
           operations: [
