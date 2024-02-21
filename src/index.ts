@@ -33,7 +33,9 @@ const toOperationBody = (
     (station) => station.id,
     (station) =>
       associate(
-        station.operations,
+        station.operations.sort(
+          (a, b) => b.startAt.getTime() - a.startAt.getTime(),
+        ),
         (operation) => operation.id,
         (operation) => {
           return {
