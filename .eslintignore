@@ -1,2 +1,4 @@
 src/types/global.d.ts
 jest.config.*
+.eslintrc.js
+coverage
