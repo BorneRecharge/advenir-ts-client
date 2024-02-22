@@ -120,3 +120,5 @@ lib/
 
 # JetBrains IDE configuration files
 .idea/
+
+.env

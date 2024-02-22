@@ -1,5 +1,8 @@
 import { Advenir } from '../src';
 
+const itif = (condition: boolean) => (condition ? it : it.skip);
+const prod = itif((process.env.ADVENIR_USERNAME?.length ?? 0) > 0 && (process.env.ADVENIR_PASSWORD?.length ?? 0) > 0);
+
 describe('index', () => {
   describe('Advenir', () => {
     it('should alert about already sent transactions', async () => {
@@ -49,5 +52,24 @@ describe('index', () => {
         }),
       ]);
     });
+
+    prod(
+      'get bonuses should work',
+      async () => {
+        const userId = 'a6d0e6cf-7cac-477a-ae63-7e753c5bdda1';
+        const username = process.env.ADVENIR_USERNAME;
+        const password = process.env.ADVENIR_PASSWORD;
+        if (!username || !password) {
+          throw new Error('Missing credentials');
+        }
+        const client = new Advenir(userId, username, password, false);
+
+        const bonuses = client.findAllBonuses();
+        for await (const bonus of bonuses) {
+          console.log(bonus.id, bonus.reference, bonus.step);
+        }
+      },
+      10_000,
+    );
   });
 });

@@ -1,4 +1,6 @@
 import {
+  Bonus,
+  BonusPage,
   OperationBody,
   OperationError,
   OperationErrors,
@@ -6,23 +8,7 @@ import {
   Station,
   TransactionReference,
 } from './types';
-import { chunks } from './utils';
-
-type Dict<T> = {
-  [id: string]: T;
-};
-
-const associate = <T, U>(
-  values: T[],
-  id: (value: T) => string,
-  map: (value: T) => U,
-): Dict<U> =>
-  Object.assign(
-    {},
-    ...values.map((value) => ({
-      [id(value)]: map(value),
-    })),
-  ) as Dict<U>;
+import { associate, chunks, extractCookie, extractFromBody } from './utils';
 
 const toOperationBody = (
   userId: string,
@@ -109,9 +95,9 @@ export class Advenir {
 
   constructor(
     private readonly userId: string,
-    username: string,
-    password: string,
-    isTest: boolean = false,
+    private readonly username: string,
+    private readonly password: string,
+    private readonly isTest: boolean = false,
   ) {
     this.url = isTest ? ADVENIR_TEST_URL : ADVENIR_PRODUCTION_URL;
     this.basicAuthToken = Buffer.from(`${username}:${password}`).toString(
@@ -149,4 +135,106 @@ export class Advenir {
 
     return Promise.reject(extractDetails(operationResponse, references));
   }
+
+  public async *findAllBonuses(pageSize: number = 200): AsyncGenerator<Bonus> {
+    const { csrfToken, csrfMiddlewareToken } = await this.first();
+    const { sessionId, csrfToken: csrfToken2 } =
+      await this.identificationRequest(
+        csrfToken,
+        csrfMiddlewareToken,
+        this.username,
+        this.password,
+      );
+    const pageIndex = 1;
+    let url: string | null =
+      `https://backend-api.mon.advenir.mobi/demande-de-prime/api/bonus_requests/?page=${pageIndex}&page_size=${pageSize}`;
+    do {
+      const page = await this.getPage(sessionId, csrfToken2, url);
+      url = page.next;
+      for (const bonus of page.results) {
+        yield bonus;
+      }
+    } while (url);
+  }
+
+  private getPage = async (
+    sessionId: string,
+    csrfToken: string,
+    url: string,
+  ): Promise<BonusPage> => {
+    if (this.isTest) {
+      throw new Error('Not available in test mode');
+    }
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Cookie', `sessionid=${sessionId};csrftoken=${csrfToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    return fetch(url, requestOptions).then((response) =>
+      response.json(),
+    ) as Promise<BonusPage>;
+  };
+
+  private first = async () => {
+    const response = await fetch('https://mon.advenir.mobi/identification/');
+    const csrfToken = extractCookie(response, 'csrftoken');
+    if (!csrfToken) {
+      throw new Error('csrftoken not found');
+    }
+    const csrfMiddlewareToken = await extractFromBody(
+      response,
+      '#loginForm > input[name="csrfmiddlewaretoken"]',
+    );
+    if (!csrfMiddlewareToken) {
+      throw new Error('csrfmiddlewaretoken not found');
+    }
+    return {
+      csrfToken,
+      csrfMiddlewareToken,
+    };
+  };
+
+  private identificationRequest = async (
+    csrftoken: string,
+    csrfMiddlewareToken: string,
+    username: string,
+    password: string,
+  ) => {
+    const myHeaders = new Headers();
+    myHeaders.append('cookie', 'csrftoken=' + csrftoken);
+    myHeaders.append('referer', 'https://mon.advenir.mobi/identification/');
+    myHeaders.append('content-type', 'application/x-www-form-urlencoded');
+
+    const urlencoded = new URLSearchParams();
+    urlencoded.append('csrfmiddlewaretoken', csrfMiddlewareToken);
+    urlencoded.append('username', username);
+    urlencoded.append('password', password);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'manual' as RequestRedirect,
+    };
+    const response = await fetch(
+      'https://mon.advenir.mobi/identification/',
+      requestOptions,
+    );
+    const sessionId = extractCookie(response, 'Secure, sessionid');
+    if (!sessionId) {
+      throw new Error('sessionid not found');
+    }
+    const csrfToken = extractCookie(response, 'csrftoken');
+    if (!csrfToken) {
+      throw new Error('csrftoken not found');
+    }
+    return {
+      sessionId,
+      csrfToken,
+    };
+  };
 }
