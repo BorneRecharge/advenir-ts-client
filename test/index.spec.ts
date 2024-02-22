@@ -1,7 +1,10 @@
 import { Advenir } from '../src';
 
 const itif = (condition: boolean) => (condition ? it : it.skip);
-const prod = itif((process.env.ADVENIR_USERNAME?.length ?? 0) > 0 && (process.env.ADVENIR_PASSWORD?.length ?? 0) > 0);
+const prod = itif(
+  (process.env.ADVENIR_USERNAME?.length ?? 0) > 0 &&
+    (process.env.ADVENIR_PASSWORD?.length ?? 0) > 0,
+);
 
 describe('index', () => {
   describe('Advenir', () => {
