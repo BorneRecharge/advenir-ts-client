@@ -12,13 +12,22 @@
   "bugs": {
     "url": "https://github.com/BorneRecharge/advenir-ts-client/issues"
   },
-  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./types": {
+      "types": "./dist/src/lib/types.d.ts",
+      "default": "./dist/src/lib/types.js"
+    }
+  },
   "files": [
-    "lib/**/*"
+    "dist/src"
   ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "clean": "rm -rf ./lib/",
+    "clean": "rm -rf ./dist/",
     "cm": "cz",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format-package": "prettier-package-json --write ./package.json",
@@ -34,7 +43,6 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "types": "./lib/index.d.ts",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12"
   },
