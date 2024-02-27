@@ -8,7 +8,7 @@ import {
   Station,
   TransactionReference,
 } from './types';
-import { associate, chunks, extractCookie, extractFromBody } from './utils';
+import { associate, chunks, extractCookie, extractFromBody } from './lib/utils';
 
 const toOperationBody = (
   userId: string,
