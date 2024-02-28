@@ -12,16 +12,7 @@
   "bugs": {
     "url": "https://github.com/BorneRecharge/advenir-ts-client/issues"
   },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "default": "./dist/types.js"
-    }
-  },
+  "main": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -43,6 +34,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12"
   },

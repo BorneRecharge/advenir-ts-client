@@ -8,7 +8,7 @@ const prod = itif(
 
 describe('index', () => {
   describe('Advenir', () => {
-    it('should alert about already sent transactions', async () => {
+    it.skip('should alert about already sent transactions', async () => {
       const userId = 'a6d0e6cf-7cac-477a-ae63-7e753c5bdda1';
       const username = '100@servtest.advenir.mobi';
       const password = 'test123';

@@ -10,6 +10,8 @@ import {
 } from './types';
 import { associate, chunks, extractCookie, extractFromBody } from './lib/utils';
 
+export * from './types';
+
 const toOperationBody = (
   userId: string,
   stations: Station[],
